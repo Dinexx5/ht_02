@@ -13,17 +13,7 @@ app.use('/posts', postsRouter)
 app.use('/blogs', blogsRouter)
 
 //types
-export type errormessage = {
-    message: string,
-    field: string
-}
 
-export type blogType = {
-    "id": number,
-    "name": string,
-    "description": string,
-    "websiteUrl": string
-}
 
 type postType = {
     "id": "string",
@@ -34,16 +24,16 @@ type postType = {
     "blogName": "string"
 }
 
-export let blogs: any[] = []
+
 export let posts: any[] = []
 
 //tests purposes
 
-app.delete('/testing/all-data', (req: Request, res: Response) => {
-    blogs = []
-    posts = []
-    res.send(204)
-})
+// app.delete('/testing/all-data', (req: Request, res: Response) => {
+//     blogs = []
+//     posts = []
+//     res.send(204)
+// })
 
 
 
