@@ -12,21 +12,6 @@ app.use(parserMiddleware)
 app.use('/posts', postsRouter)
 app.use('/blogs', blogsRouter)
 
-//types
-
-
-type postType = {
-    "id": "string",
-    "title": "string",
-    "shortDescription": "string",
-    "content": "string",
-    "blogId": "string",
-    "blogName": "string"
-}
-
-
-export let posts: any[] = []
-
 //tests purposes
 
 // app.delete('/testing/all-data', (req: Request, res: Response) => {

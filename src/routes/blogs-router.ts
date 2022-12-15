@@ -1,18 +1,23 @@
 import {Request, Response, Router} from "express";
-import {app} from "../index";
 import {blogsRepository} from "../repositories/blogs-repository";
+import {body} from "express-validator";
+import {inputValidationMiddleware} from "../middlewares/input-validation";
 
 export const blogsRouter = Router({})
 
 //blogs validation
+const nameValidation = body('name').trim().isLength({max:15}).isString()
+const descriptionValidation = body('description').trim().isLength({max:500}).isString()
+const websiteUrlValidation = body('websiteUrl').trim().isLength({max:100}).isURL()
+
 
 blogsRouter.get('/', (req: Request, res: Response) => {
-    const blogs = blogsRepository.getAllProducts()
+    const blogs = blogsRepository.getAllBlogs()
     res.status(200).send(blogs)
 })
 
 blogsRouter.get('/:id', (req: Request, res: Response) => {
-    let blog = blogsRepository.getProductById(+req.params.id)
+    let blog = blogsRepository.getBlogById(+req.params.id)
     if (!blog) {
         res.send(404)
     } else {
@@ -20,20 +25,20 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
     }
 })
 
-blogsRouter.post('/', (req: Request, res: Response) => {
+blogsRouter.post('/',
+    nameValidation,
+    descriptionValidation,
+    websiteUrlValidation,
+    inputValidationMiddleware,
+    (req: Request, res: Response) => {
 
-    const { name, description, websiteUrl} = req.body
-    const newBlogOrErrorMes = blogsRepository.createBlogs(name, description, websiteUrl)
-
-    if (Array.isArray(newBlogOrErrorMes)) {
-        res.status(400).send({'errorsMessages':newBlogOrErrorMes})
-    } else {
-        res.status(201).send(newBlogOrErrorMes)
-    }
-})
+        const {name, description, websiteUrl} = req.body
+        const newBlog = blogsRepository.createBlogs(name, description, websiteUrl)
+        res.status(201).send(newBlog)
+    })
 
 blogsRouter.delete('/:id', (req: Request, res: Response) => {
-    const isDeleted = blogsRepository.deleteProductById(+req.params.id)
+    const isDeleted = blogsRepository.deleteBlogById(+req.params.id)
     if (isDeleted) {
         res.send(204)
     } else {
@@ -41,14 +46,21 @@ blogsRouter.delete('/:id', (req: Request, res: Response) => {
     }
 })
 
-blogsRouter.put('/:id', (req: Request, res: Response) => {
+blogsRouter.put('/:id',
+    nameValidation,
+    descriptionValidation,
+    websiteUrlValidation,
+    inputValidationMiddleware,
+    (req: Request, res: Response) => {
 
-    let isUpdated = blogsRepository.UpdateProductById(+req.params.id, req.body.name)
+        const {id, name, description, websiteUrl} = req.body
 
-    if (isUpdated) {
-        res.send(204)
-    } else {
-        res.send(404)
+        let isUpdated = blogsRepository.UpdateBlogById(id, name, description, websiteUrl)
 
-    }
-})
+        if (isUpdated) {
+            res.send(204)
+        } else {
+            res.send(404)
+
+        }
+    })
