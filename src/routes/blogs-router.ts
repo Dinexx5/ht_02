@@ -6,9 +6,9 @@ import {inputValidationMiddleware} from "../middlewares/input-validation";
 export const blogsRouter = Router({})
 
 //blogs validation
-const nameValidation = body('name').trim().isLength({max:15}).isString()
-const descriptionValidation = body('description').trim().isLength({max:500}).isString()
-const websiteUrlValidation = body('websiteUrl').trim().isLength({max:100}).isURL()
+const nameValidation = body('name').trim().isLength({max:15}).withMessage('Title is too long').isString().withMessage('Not a string')
+const descriptionValidation = body('description').trim().isLength({max:500}).withMessage('Description is too long').isString().withMessage('Not a string')
+const websiteUrlValidation = body('websiteUrl').trim().isLength({max:100}).withMessage('Url is too long').isURL().withMessage('Not a Url')
 
 
 blogsRouter.get('/', (req: Request, res: Response) => {

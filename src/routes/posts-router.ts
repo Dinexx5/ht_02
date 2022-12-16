@@ -2,6 +2,8 @@ import {Request, Response, Router} from "express"
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation";
 import {postsRepository} from "../repositories/posts-repository";
+import {blogsRepository} from "../repositories/blogs-repository";
+
 
 
 export const postsRouter = Router({})
@@ -9,24 +11,25 @@ export const postsRouter = Router({})
 
 //posts validation
 
-const titleValidation = body('name').trim().isString()
-const shortDescriptionValidation = body('description').trim().isString()
-const contentValidation = body('websiteUrl').trim().isString()
-const blogIdlValidation = body('websiteUrl').trim().isString()
-const blogNameValidation = body('websiteUrl').trim().isString()
+const titleValidation = body('name').isString().withMessage('Not a string')
+const shortDescriptionValidation = body('description').trim().isString().withMessage('Not a string')
+const contentValidation = body('content').trim().isString().withMessage('Not a string')
+const blogIdlValidation = body('blogId').trim().isString().withMessage('Not a string')
+
+
 
 
 postsRouter.get('/', (req: Request, res: Response) => {
-    const blogs = postsRepository.getAllPosts()
-    res.status(200).send(blogs)
+    const posts = postsRepository.getAllPosts()
+    res.status(200).send(posts)
 })
 
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    let blog = postsRepository.getPostById(+req.params.id)
-    if (!blog) {
+    let post = postsRepository.getPostById(+req.params.id)
+    if (!post) {
         res.send(404)
     } else {
-        res.send(blog)
+        res.send(post)
     }
 })
 
@@ -36,11 +39,14 @@ postsRouter.post('/',
     contentValidation,
     blogIdlValidation,
     inputValidationMiddleware,
-    blogNameValidation,
     (req: Request, res: Response) => {
 
-        const {title, shortDescription, content, blogId, blogName} = req.body
-        const newPost = postsRepository.createPost(title, shortDescription, content, blogId, blogName)
+        const {title, shortDescription, content, blogId} = req.body
+        const foundBlog = blogsRepository.getBlogById(blogId)
+        if (!foundBlog) {
+            res.send(404)
+        }
+        const newPost = postsRepository.createPost(title, shortDescription, content, blogId)
         res.status(201).send(newPost)
     })
 
@@ -59,12 +65,15 @@ postsRouter.put('/:id',
     contentValidation,
     blogIdlValidation,
     inputValidationMiddleware,
-    blogNameValidation,
     (req: Request, res: Response) => {
 
-        const {id, title, shortDescription, content, blogId, blogName} = req.body
+        const {id, title, shortDescription, content, blogId} = req.body
+        const foundBlog = blogsRepository.getBlogById(blogId)
+        if (!foundBlog) {
+            res.send(404)
+        }
 
-        let isUpdated = postsRepository.UpdatePostById(id, title, shortDescription, content, blogId, blogName)
+        let isUpdated = postsRepository.UpdatePostById(id, title, shortDescription, content, blogId)
 
         if (isUpdated) {
             res.send(204)
@@ -73,9 +82,3 @@ postsRouter.put('/:id',
 
         }
     })
-
-// const titleValidation = body('name').trim().isString()
-// const shortDescriptionValidation = body('description').trim().isString()
-// const contentValidation = body('websiteUrl').trim().isString()
-// const blogIdlValidation = body('websiteUrl').trim().isString()
-// const blogNameValidation = body('websiteUrl').trim().isString()

@@ -1,3 +1,6 @@
+import {blogs, blogsRepository} from "./blogs-repository";
+
+
 let posts: any[] = []
 
 type postType = {
@@ -10,7 +13,8 @@ type postType = {
 }
 
 export const postsRepository = {
-    createPost (title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    createPost (title: string, shortDescription: string, content: string, blogId: string) {
+        let foundBlog = blogs.find(b => b.id === blogId)
 
         const newPost: postType  = {
             id: posts.length,
@@ -18,7 +22,7 @@ export const postsRepository = {
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
-            blogName: blogName
+            blogName: foundBlog.name
         }
         posts.push(newPost)
         return newPost
@@ -39,13 +43,19 @@ export const postsRepository = {
         }
         return false
     },
-    UpdatePostById (id: number, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
-        let foundBlog = posts.find(p => p.id === id)
+    UpdatePostById (id: number, title: string, shortDescription: string, content: string, blogId: string) {
+        let foundBlog = blogs.find(b => b.id === blogId)
+        let foundPost = posts.find(p => p.id === id)
 
-        if (!foundBlog) {
+        if (!foundPost) {
             return false
         }
-        foundBlog.name = name
+        foundPost.title = title
+        foundPost.shortDescription = shortDescription
+        foundPost.content = content
+        foundPost.blogId = blogId
+        foundPost.blogName = foundBlog.name
+
         return true
     }
 }
