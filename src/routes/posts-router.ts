@@ -11,10 +11,10 @@ export const postsRouter = Router({})
 
 //posts validation
 
-const titleValidation = body('name').isString().withMessage('Not a string')
-const shortDescriptionValidation = body('description').trim().isString().withMessage('Not a string')
-const contentValidation = body('content').trim().isString().withMessage('Not a string')
-const blogIdlValidation = body('blogId').trim().isString().withMessage('Not a string')
+const titleValidation = body('title').trim().not().isEmpty().withMessage('Not a string title')
+const shortDescriptionValidation = body('shortDescription').trim().not().isEmpty().withMessage('Not a string desc')
+const contentValidation = body('content').trim().not().isEmpty().withMessage('Not a string content')
+const blogIdlValidation = body('blogId').trim().not().isEmpty().withMessage('Not a string blogId')
 
 
 
@@ -42,9 +42,9 @@ postsRouter.post('/',
     (req: Request, res: Response) => {
 
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog = blogsRepository.getBlogById(blogId)
+        const foundBlog = blogsRepository.getBlogById(+blogId)
         if (!foundBlog) {
-            res.send(404)
+           return res.send(404)
         }
         const newPost = postsRepository.createPost(title, shortDescription, content, blogId)
         res.status(201).send(newPost)
@@ -66,9 +66,9 @@ postsRouter.put('/:id',
     blogIdlValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-
-        const {id, title, shortDescription, content, blogId} = req.body
-        const foundBlog = blogsRepository.getBlogById(blogId)
+        const id = +req.params.id
+        const {title, shortDescription, content, blogId} = req.body
+        const foundBlog = blogsRepository.getBlogById(+blogId)
         if (!foundBlog) {
             res.send(404)
         }

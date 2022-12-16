@@ -6,8 +6,8 @@ import {inputValidationMiddleware} from "../middlewares/input-validation";
 export const blogsRouter = Router({})
 
 //blogs validation
-const nameValidation = body('name').trim().isLength({max:15}).withMessage('Title is too long').isString().withMessage('Not a string')
-const descriptionValidation = body('description').trim().isLength({max:500}).withMessage('Description is too long').isString().withMessage('Not a string')
+const nameValidation = body('name').trim().isLength({max: 15}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
+const descriptionValidation = body('description').trim().isLength({max: 500}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
 const websiteUrlValidation = body('websiteUrl').trim().isLength({max:100}).withMessage('Url is too long').isURL().withMessage('Not a Url')
 
 
@@ -40,9 +40,9 @@ blogsRouter.post('/',
 blogsRouter.delete('/:id', (req: Request, res: Response) => {
     const isDeleted = blogsRepository.deleteBlogById(+req.params.id)
     if (isDeleted) {
-        res.send(204)
+        res.status(204)
     } else {
-        res.send(404)
+        res.status(404)
     }
 })
 
@@ -52,8 +52,9 @@ blogsRouter.put('/:id',
     websiteUrlValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
+        const id = +req.params.id
 
-        const {id, name, description, websiteUrl} = req.body
+        const {name, description, websiteUrl} = req.body
 
         let isUpdated = blogsRepository.UpdateBlogById(id, name, description, websiteUrl)
 

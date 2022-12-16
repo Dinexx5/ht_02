@@ -41,6 +41,10 @@ export type blogType = {
             return false
         }
         foundBlog.name = name
+        foundBlog.description = description
+        foundBlog.websiteUrl = websiteUrl
         return true
+
+
     }
  }

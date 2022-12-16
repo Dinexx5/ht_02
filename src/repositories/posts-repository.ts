@@ -14,7 +14,7 @@ type postType = {
 
 export const postsRepository = {
     createPost (title: string, shortDescription: string, content: string, blogId: string) {
-        let foundBlog = blogs.find(b => b.id === blogId)
+        let foundBlog = blogsRepository.getBlogById(+blogId)
 
         const newPost: postType  = {
             id: posts.length,
@@ -44,7 +44,7 @@ export const postsRepository = {
         return false
     },
     UpdatePostById (id: number, title: string, shortDescription: string, content: string, blogId: string) {
-        let foundBlog = blogs.find(b => b.id === blogId)
+        let foundBlog = blogsRepository.getBlogById(+blogId)
         let foundPost = posts.find(p => p.id === id)
 
         if (!foundPost) {

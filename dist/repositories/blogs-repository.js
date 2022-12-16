@@ -1,63 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blogsRepository = void 0;
-let blogs = [];
+exports.blogsRepository = exports.blogs = void 0;
+exports.blogs = [];
 exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
-        let errorsMessages = [];
-        if (!name || typeof name !== 'string' || name.length > 15 || !name.trim()) {
-            errorsMessages.push({
-                message: "Incorrect name",
-                field: "name"
-            });
-        }
-        if (!description || typeof description !== 'string' || description.length > 500 || !description.trim()) {
-            errorsMessages.push({
-                message: "Incorrect description",
-                field: "description"
-            });
-        }
-        if (!websiteUrl || typeof websiteUrl !== 'string' || websiteUrl.length > 100 || !websiteUrl.trim()) {
-            errorsMessages.push({
-                message: "Incorrect websiteUrl",
-                field: "websiteUrl"
-            });
-        }
-        if (errorsMessages.length) {
-            return (errorsMessages);
-        }
         const newBlog = {
-            id: blogs.length,
+            id: exports.blogs.length,
             name: name,
             description: description,
             websiteUrl: websiteUrl
         };
-        blogs.push(newBlog);
+        exports.blogs.push(newBlog);
         return newBlog;
     },
-    getProductById(id) {
-        let blog = blogs.find(b => b.id === id);
+    getBlogById(id) {
+        let blog = exports.blogs.find(b => b.id === id);
         return blog;
     },
-    getAllProducts() {
-        return blogs;
+    getAllBlogs() {
+        return exports.blogs;
     },
-    deleteProductById(id) {
-        for (let i = 0; i < blogs.length; i++) {
-            if (blogs[i].id === id) {
-                blogs.splice(i, 1);
+    deleteBlogById(id) {
+        for (let i = 0; i < exports.blogs.length; i++) {
+            if (exports.blogs[i].id === id) {
+                exports.blogs.splice(i, 1);
                 return true;
             }
         }
         return false;
     },
-    UpdateProductById(id, name) {
-        let foundBlog = blogs.find(b => b.id === id);
-        let errorsMessages = [];
+    UpdateBlogById(id, name, description, websiteUrl) {
+        let foundBlog = exports.blogs.find(b => b.id === id);
         if (!foundBlog) {
             return false;
         }
         foundBlog.name = name;
+        foundBlog.description = description;
+        foundBlog.websiteUrl = websiteUrl;
         return true;
     }
 };
