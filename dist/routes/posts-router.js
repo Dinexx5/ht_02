@@ -17,7 +17,7 @@ exports.postsRouter.get('/', (req, res) => {
     res.status(200).send(posts);
 });
 exports.postsRouter.get('/:id', (req, res) => {
-    let post = posts_repository_1.postsRepository.getPostById(+req.params.id);
+    let post = posts_repository_1.postsRepository.getPostById(req.params.id);
     if (!post) {
         res.send(404);
     }
@@ -27,7 +27,7 @@ exports.postsRouter.get('/:id', (req, res) => {
 });
 exports.postsRouter.post('/', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = blogs_repository_1.blogsRepository.getBlogById(+blogId);
+    const foundBlog = blogs_repository_1.blogsRepository.getBlogById(blogId);
     if (!foundBlog) {
         return res.send(404);
     }
@@ -35,7 +35,7 @@ exports.postsRouter.post('/', input_validation_1.basicAuthorisation, titleValida
     res.status(201).send(newPost);
 });
 exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, res) => {
-    const isDeleted = posts_repository_1.postsRepository.deletePostById(+req.params.id);
+    const isDeleted = posts_repository_1.postsRepository.deletePostById(req.params.id);
     if (isDeleted) {
         res.send(204);
     }
@@ -44,9 +44,9 @@ exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, 
     }
 });
 exports.postsRouter.put('/:id', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = blogs_repository_1.blogsRepository.getBlogById(+blogId);
+    const foundBlog = blogs_repository_1.blogsRepository.getBlogById(blogId);
     if (!foundBlog) {
         res.send(404);
     }

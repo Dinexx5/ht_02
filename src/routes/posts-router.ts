@@ -25,7 +25,7 @@ postsRouter.get('/', (req: Request, res: Response) => {
 })
 
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    let post = postsRepository.getPostById(+req.params.id)
+    let post = postsRepository.getPostById(req.params.id)
     if (!post) {
         res.send(404)
     } else {
@@ -43,7 +43,7 @@ postsRouter.post('/',
     (req: Request, res: Response) => {
 
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog = blogsRepository.getBlogById(+blogId)
+        const foundBlog = blogsRepository.getBlogById(blogId)
         if (!foundBlog) {
            return res.send(404)
         }
@@ -54,7 +54,7 @@ postsRouter.post('/',
 postsRouter.delete('/:id',
     basicAuthorisation,
     (req: Request, res: Response) => {
-    const isDeleted = postsRepository.deletePostById(+req.params.id)
+    const isDeleted = postsRepository.deletePostById(req.params.id)
     if (isDeleted) {
         res.send(204)
     } else {
@@ -70,9 +70,9 @@ postsRouter.put('/:id',
     blogIdlValidation,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-        const id = +req.params.id
+        const id = req.params.id
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog = blogsRepository.getBlogById(+blogId)
+        const foundBlog = blogsRepository.getBlogById(blogId)
         if (!foundBlog) {
             res.send(404)
         }

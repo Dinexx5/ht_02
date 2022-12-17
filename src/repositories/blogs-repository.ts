@@ -1,7 +1,7 @@
 let blogs: blogType[] = []
 
 export type blogType = {
-    "id": number,
+    "id": string,
     "name": string,
     "description": string,
     "websiteUrl": string
@@ -10,7 +10,7 @@ export type blogType = {
     createBlogs (name: string, description: string, websiteUrl: string) {
 
         const newBlog: blogType  = {
-            id: blogs.length,
+            id: blogs.length.toString(),
             name: name,
             description: description,
             websiteUrl: websiteUrl
@@ -18,14 +18,14 @@ export type blogType = {
         blogs.push(newBlog)
         return newBlog
     },
-    getBlogById (id: number) {
+    getBlogById (id: string) {
         let blog = blogs.find(b => b.id === id)
         return blog
     },
     getAllBlogs () {
         return blogs
     },
-    deleteBlogById (id: number) {
+    deleteBlogById (id: string) {
         for (let i = 0; i < blogs.length; i++)  {
             if (blogs[i].id === id) {
                 blogs.splice(i, 1);
@@ -34,7 +34,7 @@ export type blogType = {
         }
         return false
     },
-    UpdateBlogById (id: number, name: string, description: string, websiteUrl: string) {
+    UpdateBlogById (id: string, name: string, description: string, websiteUrl: string) {
         let foundBlog = blogs.find(b => b.id === id)
 
         if (!foundBlog) {

@@ -5,7 +5,7 @@ let blogs = [];
 exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         const newBlog = {
-            id: blogs.length,
+            id: blogs.length.toString(),
             name: name,
             description: description,
             websiteUrl: websiteUrl
