@@ -1,4 +1,4 @@
-import express, {Request, Response, Router} from 'express'
+import express from 'express'
 import bodyParser from "body-parser";
 import {postsRouter} from "./routes/posts-router";
 import {blogsRouter} from "./routes/blogs-router";

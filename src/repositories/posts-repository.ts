@@ -1,4 +1,4 @@
-import {blogsRepository, blogType} from "./blogs-repository";
+import {blogsRepository} from "./blogs-repository";
 
 let posts: any[] = []
 
