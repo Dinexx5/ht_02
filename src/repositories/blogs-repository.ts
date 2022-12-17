@@ -1,4 +1,4 @@
-export let blogs: any[] = []
+let blogs: blogType[] = []
 
 export type blogType = {
     "id": number,

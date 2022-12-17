@@ -8,18 +8,14 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const posts_router_1 = require("./routes/posts-router");
 const blogs_router_1 = require("./routes/blogs-router");
+const testing_router_1 = require("./routes/testing-router");
 exports.app = (0, express_1.default)();
 const port = 3001;
 const parserMiddleware = (0, body_parser_1.default)({});
 exports.app.use(parserMiddleware);
 exports.app.use('/posts', posts_router_1.postsRouter);
 exports.app.use('/blogs', blogs_router_1.blogsRouter);
-//tests purposes
-// app.delete('/testing/all-data', (req: Request, res: Response) => {
-//     blogs = []
-//     posts = []
-//     res.send(204)
-// })
+exports.app.use('/testing', testing_router_1.testingRouter);
 //app start
 exports.app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

@@ -25,7 +25,7 @@ exports.postsRouter.get('/:id', (req, res) => {
         res.send(post);
     }
 });
-exports.postsRouter.post('/', titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
+exports.postsRouter.post('/', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
     const { title, shortDescription, content, blogId } = req.body;
     const foundBlog = blogs_repository_1.blogsRepository.getBlogById(+blogId);
     if (!foundBlog) {
@@ -34,7 +34,7 @@ exports.postsRouter.post('/', titleValidation, shortDescriptionValidation, conte
     const newPost = posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId);
     res.status(201).send(newPost);
 });
-exports.postsRouter.delete('/:id', (req, res) => {
+exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, res) => {
     const isDeleted = posts_repository_1.postsRepository.deletePostById(+req.params.id);
     if (isDeleted) {
         res.send(204);
@@ -43,7 +43,7 @@ exports.postsRouter.delete('/:id', (req, res) => {
         res.send(404);
     }
 });
-exports.postsRouter.put('/:id', titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
+exports.postsRouter.put('/:id', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
     const id = +req.params.id;
     const { title, shortDescription, content, blogId } = req.body;
     const foundBlog = blogs_repository_1.blogsRepository.getBlogById(+blogId);

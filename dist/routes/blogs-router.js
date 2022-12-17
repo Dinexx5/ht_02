@@ -23,12 +23,12 @@ exports.blogsRouter.get('/:id', (req, res) => {
         res.send(blog);
     }
 });
-exports.blogsRouter.post('/', nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
+exports.blogsRouter.post('/', input_validation_1.basicAuthorisation, nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
     const { name, description, websiteUrl } = req.body;
     const newBlog = blogs_repository_1.blogsRepository.createBlogs(name, description, websiteUrl);
     res.status(201).send(newBlog);
 });
-exports.blogsRouter.delete('/:id', (req, res) => {
+exports.blogsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, res) => {
     const isDeleted = blogs_repository_1.blogsRepository.deleteBlogById(+req.params.id);
     if (isDeleted) {
         res.status(204);
@@ -37,7 +37,7 @@ exports.blogsRouter.delete('/:id', (req, res) => {
         res.status(404);
     }
 });
-exports.blogsRouter.put('/:id', nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
+exports.blogsRouter.put('/:id', input_validation_1.basicAuthorisation, nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => {
     const id = +req.params.id;
     const { name, description, websiteUrl } = req.body;
     let isUpdated = blogs_repository_1.blogsRepository.UpdateBlogById(id, name, description, websiteUrl);

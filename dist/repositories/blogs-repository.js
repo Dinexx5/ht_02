@@ -1,36 +1,36 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blogsRepository = exports.blogs = void 0;
-exports.blogs = [];
+exports.blogsRepository = void 0;
+let blogs = [];
 exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         const newBlog = {
-            id: exports.blogs.length,
+            id: blogs.length,
             name: name,
             description: description,
             websiteUrl: websiteUrl
         };
-        exports.blogs.push(newBlog);
+        blogs.push(newBlog);
         return newBlog;
     },
     getBlogById(id) {
-        let blog = exports.blogs.find(b => b.id === id);
+        let blog = blogs.find(b => b.id === id);
         return blog;
     },
     getAllBlogs() {
-        return exports.blogs;
+        return blogs;
     },
     deleteBlogById(id) {
-        for (let i = 0; i < exports.blogs.length; i++) {
-            if (exports.blogs[i].id === id) {
-                exports.blogs.splice(i, 1);
+        for (let i = 0; i < blogs.length; i++) {
+            if (blogs[i].id === id) {
+                blogs.splice(i, 1);
                 return true;
             }
         }
         return false;
     },
     UpdateBlogById(id, name, description, websiteUrl) {
-        let foundBlog = exports.blogs.find(b => b.id === id);
+        let foundBlog = blogs.find(b => b.id === id);
         if (!foundBlog) {
             return false;
         }

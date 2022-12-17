@@ -2,6 +2,7 @@ import express, {Request, Response, Router} from 'express'
 import bodyParser from "body-parser";
 import {postsRouter} from "./routes/posts-router";
 import {blogsRouter} from "./routes/blogs-router";
+import {testingRouter} from "./routes/testing-router";
 
 export const app = express()
 const port = 3001
@@ -11,15 +12,7 @@ app.use(parserMiddleware)
 
 app.use('/posts', postsRouter)
 app.use('/blogs', blogsRouter)
-
-//tests purposes
-
-// app.delete('/testing/all-data', (req: Request, res: Response) => {
-//     blogs = []
-//     posts = []
-//     res.send(204)
-// })
-
+app.use('/testing', testingRouter)
 
 
 //app start
