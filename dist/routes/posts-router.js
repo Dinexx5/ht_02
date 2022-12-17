@@ -8,9 +8,9 @@ const posts_repository_1 = require("../repositories/posts-repository");
 const blogs_repository_1 = require("../repositories/blogs-repository");
 exports.postsRouter = (0, express_1.Router)({});
 //posts validation
-const titleValidation = (0, express_validator_1.body)('title').trim().not().isEmpty().withMessage('Not a string title');
-const shortDescriptionValidation = (0, express_validator_1.body)('shortDescription').trim().not().isEmpty().withMessage('Not a string desc');
-const contentValidation = (0, express_validator_1.body)('content').trim().not().isEmpty().withMessage('Not a string content');
+const titleValidation = (0, express_validator_1.body)('title').trim().isLength({ max: 30 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title');
+const shortDescriptionValidation = (0, express_validator_1.body)('shortDescription').trim().isLength({ max: 100 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string desc');
+const contentValidation = (0, express_validator_1.body)('content').trim().isLength({ max: 1000 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content');
 const blogIdlValidation = (0, express_validator_1.body)('blogId').trim().not().isEmpty().withMessage('Not a string blogId');
 exports.postsRouter.get('/', (req, res) => {
     const posts = posts_repository_1.postsRepository.getAllPosts();

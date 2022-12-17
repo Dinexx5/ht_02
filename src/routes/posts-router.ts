@@ -11,9 +11,9 @@ export const postsRouter = Router({})
 
 //posts validation
 
-const titleValidation = body('title').trim().not().isEmpty().withMessage('Not a string title')
-const shortDescriptionValidation = body('shortDescription').trim().not().isEmpty().withMessage('Not a string desc')
-const contentValidation = body('content').trim().not().isEmpty().withMessage('Not a string content')
+const titleValidation = body('title').trim().isLength({max: 30}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title')
+const shortDescriptionValidation = body('shortDescription').trim().isLength({max: 100}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string desc')
+const contentValidation = body('content').trim().isLength({max: 1000}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content')
 const blogIdlValidation = body('blogId').trim().not().isEmpty().withMessage('Not a string blogId')
 
 
