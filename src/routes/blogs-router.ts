@@ -8,7 +8,7 @@ export const blogsRouter = Router({})
 //blogs validation
 const nameValidation = body('name').trim().isLength({max: 15}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
 const descriptionValidation = body('description').trim().isLength({max: 500}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
-const websiteUrlValidation = body('websiteUrl').trim().isLength({max:100}).withMessage('Url is too long').isURL().withMessage('Not a Url')
+const websiteUrlValidation = body('websiteUrl').trim().isURL().withMessage('Not a Url')
 
 
 blogsRouter.get('/', (req: Request, res: Response) => {

@@ -9,7 +9,7 @@ exports.blogsRouter = (0, express_1.Router)({});
 //blogs validation
 const nameValidation = (0, express_validator_1.body)('name').trim().isLength({ max: 15 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
 const descriptionValidation = (0, express_validator_1.body)('description').trim().isLength({ max: 500 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
-const websiteUrlValidation = (0, express_validator_1.body)('websiteUrl').trim().isLength({ max: 100 }).withMessage('Url is too long').isURL().withMessage('Not a Url');
+const websiteUrlValidation = (0, express_validator_1.body)('websiteUrl').trim().isURL().withMessage('Not a Url');
 exports.blogsRouter.get('/', (req, res) => {
     const blogs = blogs_repository_1.blogsRepository.getAllBlogs();
     res.status(200).send(blogs);
