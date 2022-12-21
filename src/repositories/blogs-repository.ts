@@ -6,8 +6,10 @@ export type blogType = {
     "description": string,
     "websiteUrl": string
 }
+
  export const blogsRepository = {
-    createBlogs (name: string, description: string, websiteUrl: string) {
+
+    async createBlogs (name: string, description: string, websiteUrl: string): Promise<blogType> {
 
         const newBlog: blogType  = {
             id: blogs.length.toString(),
@@ -18,14 +20,17 @@ export type blogType = {
         blogs.push(newBlog)
         return newBlog
     },
-    getBlogById (id: string) {
-        let blog = blogs.find(b => b.id === id)
+
+    async getBlogById (id: string): Promise<blogType | undefined> {
+        let blog: blogType | undefined = blogs.find(b => b.id === id)
         return blog
     },
-    getAllBlogs () {
+
+    async getAllBlogs (): Promise<blogType[]> {
         return blogs
     },
-    deleteBlogById (id: string) {
+
+    async deleteBlogById (id: string): Promise<boolean> {
         for (let i = 0; i < blogs.length; i++)  {
             if (blogs[i].id === id) {
                 blogs.splice(i, 1);
@@ -34,8 +39,9 @@ export type blogType = {
         }
         return false
     },
-    UpdateBlogById (id: string, name: string, description: string, websiteUrl: string) {
-        let foundBlog = blogs.find(b => b.id === id)
+
+    async UpdateBlogById (id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
+        let foundBlog: blogType | undefined = blogs.find(b => b.id === id)
 
         if (!foundBlog) {
             return false

@@ -1,8 +1,8 @@
-import {blogsRepository} from "./blogs-repository";
+import {blogsRepository, blogType} from "./blogs-repository";
 
-let posts: any[] = []
+let posts: postType[] = []
 
-type postType = {
+export type postType = {
     "id": string,
     "title": string,
     "shortDescription": string,
@@ -12,8 +12,9 @@ type postType = {
 }
 
 export const postsRepository = {
-    createPost (title: string, shortDescription: string, content: string, blogId: string) {
-        let foundBlog = blogsRepository.getBlogById(blogId)
+
+    async createPost (title: string, shortDescription: string, content: string, blogId: string): Promise<postType | undefined> {
+        let foundBlog: blogType | undefined = await blogsRepository.getBlogById(blogId)
         if (foundBlog) {
             const newPost: postType  = {
                 id: posts.length.toString(),
@@ -27,14 +28,17 @@ export const postsRepository = {
             return newPost
         }
     },
-    getPostById (id: string) {
-        let post = posts.find(p => p.id === id)
+
+    async getPostById (id: string): Promise<postType | undefined> {
+        let post: postType | undefined = posts.find(p => p.id === id)
         return post
     },
-    getAllPosts () {
+
+    async getAllPosts (): Promise<postType[]> {
         return posts
     },
-    deletePostById (id: string) {
+
+    async deletePostById (id: string): Promise<boolean> {
         for (let i = 0; i < posts.length; i++)  {
             if (posts[i].id === id) {
                 posts.splice(i, 1);
@@ -43,9 +47,10 @@ export const postsRepository = {
         }
         return false
     },
-    UpdatePostById (id: string, title: string, shortDescription: string, content: string, blogId: string) {
-        let foundBlog = blogsRepository.getBlogById(blogId)
-        let foundPost = posts.find(p => p.id === id)
+
+    async UpdatePostById (id: string, title: string, shortDescription: string, content: string, blogId: string): Promise<boolean> {
+        let foundBlog: blogType | undefined = await blogsRepository.getBlogById(blogId)
+        let foundPost: postType | undefined = posts.find(p => p.id === id)
 
         if (!foundPost || !foundBlog) {
             return false
