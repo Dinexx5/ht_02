@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import {blogsRepository, blogType} from "../repositories/blogs-repository";
+import {blogsRepository, blogType} from "../repositories/blogs-repository-inmemory";
 import {body} from "express-validator";
 import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
 
@@ -17,7 +17,7 @@ blogsRouter.get('/', async (req: Request, res: Response) => {
 })
 
 blogsRouter.get('/:id', async (req: Request, res: Response) => {
-    let blog: blogType | undefined = await blogsRepository.getBlogById(req.params.id)
+    const blog: blogType | undefined = await blogsRepository.getBlogById(req.params.id)
     if (!blog) {
         res.send(404)
     } else {

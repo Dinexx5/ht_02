@@ -10,36 +10,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
-let blogs = [];
+let __blogs = [];
 exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
-                id: blogs.length.toString(),
+                id: __blogs.length.toString(),
                 name: name,
                 description: description,
                 websiteUrl: websiteUrl
             };
-            blogs.push(newBlog);
+            __blogs.push(newBlog);
             return newBlog;
         });
     },
     getBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = blogs.find(b => b.id === id);
+            let blog = __blogs.find(b => b.id === id);
             return blog;
         });
     },
     getAllBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
-            return blogs;
+            return __blogs;
         });
     },
     deleteBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            for (let i = 0; i < blogs.length; i++) {
-                if (blogs[i].id === id) {
-                    blogs.splice(i, 1);
+            for (let i = 0; i < __blogs.length; i++) {
+                if (__blogs[i].id === id) {
+                    __blogs.splice(i, 1);
                     return true;
                 }
             }
@@ -48,7 +48,7 @@ exports.blogsRepository = {
     },
     UpdateBlogById(id, name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            let foundBlog = blogs.find(b => b.id === id);
+            let foundBlog = __blogs.find(b => b.id === id);
             if (!foundBlog) {
                 return false;
             }

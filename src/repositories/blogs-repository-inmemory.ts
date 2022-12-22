@@ -1,10 +1,11 @@
-let blogs: blogType[] = []
+
+const blogs: blogType[] = []
 
 export type blogType = {
-    "id": string,
-    "name": string,
-    "description": string,
-    "websiteUrl": string
+    id: string,
+    name: string,
+    description: string,
+    websiteUrl: string
 }
 
  export const blogsRepository = {
@@ -21,9 +22,8 @@ export type blogType = {
         return newBlog
     },
 
-    async getBlogById (id: string): Promise<blogType | undefined> {
-        let blog: blogType | undefined = blogs.find(b => b.id === id)
-        return blog
+     async getBlogById (id: string): Promise<blogType | undefined> {
+         return blogs.find(b => b.id === id)
     },
 
     async getAllBlogs (): Promise<blogType[]> {

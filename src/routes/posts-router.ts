@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express"
 import {body} from "express-validator";
 import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
 import {postsRepository, postType} from "../repositories/posts-repository";
-import {blogsRepository, blogType} from "../repositories/blogs-repository";
+import {blogsRepository, blogType} from "../repositories/blogs-repository-inmemory";
 
 
 

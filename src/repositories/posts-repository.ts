@@ -1,4 +1,4 @@
-import {blogsRepository, blogType} from "./blogs-repository";
+import {blogsRepository, blogType} from "./blogs-repository-db";
 
 let posts: postType[] = []
 

@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import {postsRouter} from "./routes/posts-router";
 import {blogsRouter} from "./routes/blogs-router";
 import {testingRouter} from "./routes/testing-router";
+import {runDb} from "./repositories/db";
 
 export const app = express()
 const port = 3001
@@ -16,6 +17,11 @@ app.use('/testing', testingRouter)
 
 
 //app start
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+const appStart = async () => {
+    await runDb()
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
 })
+}
+
+appStart()
