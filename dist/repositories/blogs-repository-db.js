@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const db_1 = require("./db");
-let __blogs = [];
 exports.blogsRepository = {
     getAllBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -21,7 +20,7 @@ exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
-                id: __blogs.length.toString(),
+                id: "0",
                 name: name,
                 description: description,
                 websiteUrl: websiteUrl

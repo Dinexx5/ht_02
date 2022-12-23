@@ -1,27 +1,21 @@
 import {blogsRepository} from "./blogs-repository-db";
 import {blogType, postsCollection, postType} from "./db";
 
-let posts: postType[] = []
-
 
 export const postsRepository = {
 
-    async createPost (title: string, shortDescription: string, content: string, blogId: string): Promise<postType | null> {
-        let foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
-        if (foundBlog) {
-            const newPost: postType  = {
-                id: posts.length.toString(),
-                title: title,
-                shortDescription: shortDescription,
-                content: content,
-                blogId: blogId,
-                blogName: foundBlog.name
-            }
-            await postsCollection.insertOne(newPost)
-            return newPost
-        } else {
-            return null
+    async createPost (title: string, shortDescription: string, content: string, blogId: string): Promise<postType> {
+        let foundBlog = await blogsRepository.getBlogById(blogId)
+        const newPost: postType  = {
+            id: "1",
+            title: title,
+            shortDescription: shortDescription,
+            content: content,
+            blogId: blogId,
+            blogName: foundBlog!.name
         }
+        await postsCollection.insertOne(newPost)
+        return newPost
     },
 
 

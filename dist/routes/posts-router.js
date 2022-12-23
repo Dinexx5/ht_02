@@ -13,7 +13,7 @@ exports.postsRouter = void 0;
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const input_validation_1 = require("../middlewares/input-validation");
-const posts_repository_1 = require("../repositories/posts-repository");
+const posts_repository_db_1 = require("../repositories/posts-repository-db");
 const blogs_repository_db_1 = require("../repositories/blogs-repository-db");
 exports.postsRouter = (0, express_1.Router)({});
 //posts validation
@@ -22,11 +22,11 @@ const shortDescriptionValidation = (0, express_validator_1.body)('shortDescripti
 const contentValidation = (0, express_validator_1.body)('content').trim().isLength({ max: 1000 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content');
 const blogIdlValidation = (0, express_validator_1.body)('blogId').trim().not().isEmpty().withMessage('Not a string blogId').isLength({ max: 4 }).withMessage('Incorrect length of blogId');
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const posts = yield posts_repository_1.postsRepository.getAllPosts();
+    const posts = yield posts_repository_db_1.postsRepository.getAllPosts();
     res.status(200).send(posts);
 }));
 exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let post = yield posts_repository_1.postsRepository.getPostById(req.params.id);
+    let post = yield posts_repository_db_1.postsRepository.getPostById(req.params.id);
     if (!post) {
         res.send(404);
     }
@@ -40,11 +40,13 @@ exports.postsRouter.post('/', input_validation_1.basicAuthorisation, titleValida
     if (!foundBlog) {
         return res.send(404);
     }
-    const newPost = yield posts_repository_1.postsRepository.createPost(title, shortDescription, content, blogId);
-    res.status(201).send(newPost);
+    else {
+        const newPost = yield posts_repository_db_1.postsRepository.createPost(title, shortDescription, content, blogId);
+        res.status(201).send(newPost);
+    }
 }));
 exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const isDeleted = yield posts_repository_1.postsRepository.deletePostById(req.params.id);
+    const isDeleted = yield posts_repository_db_1.postsRepository.deletePostById(req.params.id);
     if (isDeleted) {
         res.send(204);
     }
@@ -55,11 +57,7 @@ exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, 
 exports.postsRouter.put('/:id', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
-    if (!foundBlog) {
-        res.send(404);
-    }
-    let isUpdated = yield posts_repository_1.postsRepository.UpdatePostById(id, title, shortDescription, content, blogId);
+    let isUpdated = yield posts_repository_db_1.postsRepository.UpdatePostById(id, title, shortDescription, content, blogId);
     if (isUpdated) {
         res.send(204);
     }

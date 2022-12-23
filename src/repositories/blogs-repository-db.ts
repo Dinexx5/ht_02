@@ -1,7 +1,5 @@
 import {blogsCollection, blogType} from "./db";
 
-let __blogs: blogType[] = []
-
 
 
  export const blogsRepository = {
@@ -17,7 +15,7 @@ let __blogs: blogType[] = []
 
     async createBlogs (name: string, description: string, websiteUrl: string): Promise<blogType> {
         const newBlog: blogType  = {
-            id: __blogs.length.toString(),
+            id: "0",
             name: name,
             description: description,
             websiteUrl: websiteUrl

@@ -30,7 +30,7 @@ export async function runDb() {
         // Connect client tot the server
         await client.connect();
         // Establish and verify connection
-        await client.db("blogs").command({ ping: 1 });
+        await client.db("youtube").command({ ping: 1 });
         console.log("Connected successfully to mongo server");
     } catch {
         console.log ("Can not connect to mongo db");
