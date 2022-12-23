@@ -14,7 +14,7 @@ const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const input_validation_1 = require("../middlewares/input-validation");
 const posts_repository_1 = require("../repositories/posts-repository");
-const blogs_repository_inmemory_1 = require("../repositories/blogs-repository-inmemory");
+const blogs_repository_db_1 = require("../repositories/blogs-repository-db");
 exports.postsRouter = (0, express_1.Router)({});
 //posts validation
 const titleValidation = (0, express_validator_1.body)('title').trim().isLength({ max: 30 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title');
@@ -36,7 +36,7 @@ exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.postsRouter.post('/', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = yield blogs_repository_inmemory_1.blogsRepository.getBlogById(blogId);
+    const foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
     if (!foundBlog) {
         return res.send(404);
     }
@@ -55,7 +55,7 @@ exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, 
 exports.postsRouter.put('/:id', input_validation_1.basicAuthorisation, titleValidation, shortDescriptionValidation, contentValidation, blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = yield blogs_repository_inmemory_1.blogsRepository.getBlogById(blogId);
+    const foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
     if (!foundBlog) {
         res.send(404);
     }

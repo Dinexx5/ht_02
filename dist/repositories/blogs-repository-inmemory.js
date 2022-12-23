@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
-let blogs = [];
+const blogs = [];
 exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -27,7 +27,12 @@ exports.blogsRepository = {
     getBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let blog = blogs.find(b => b.id === id);
-            return blog;
+            if (blog) {
+                return blog;
+            }
+            else {
+                return null;
+            }
         });
     },
     getAllBlogs() {

@@ -10,8 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
+const db_1 = require("./db");
 let __blogs = [];
 exports.blogsRepository = {
+    getAllBlogs() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield db_1.blogsCollection.find().toArray();
+        });
+    },
     createBlogs(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
@@ -20,42 +26,31 @@ exports.blogsRepository = {
                 description: description,
                 websiteUrl: websiteUrl
             };
-            __blogs.push(newBlog);
+            yield db_1.blogsCollection.insertOne(newBlog);
             return newBlog;
         });
     },
     getBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = __blogs.find(b => b.id === id);
-            return blog;
-        });
-    },
-    getAllBlogs() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return __blogs;
+            let blog = yield db_1.blogsCollection.findOne({ id: id });
+            if (blog) {
+                return blog;
+            }
+            else {
+                return null;
+            }
         });
     },
     deleteBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            for (let i = 0; i < __blogs.length; i++) {
-                if (__blogs[i].id === id) {
-                    __blogs.splice(i, 1);
-                    return true;
-                }
-            }
-            return false;
+            let result = yield db_1.blogsCollection.deleteOne({ id: id });
+            return result.deletedCount === 1;
         });
     },
     UpdateBlogById(id, name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            let foundBlog = __blogs.find(b => b.id === id);
-            if (!foundBlog) {
-                return false;
-            }
-            foundBlog.name = name;
-            foundBlog.description = description;
-            foundBlog.websiteUrl = websiteUrl;
-            return true;
+            let result = yield db_1.blogsCollection.updateOne({ id: id }, { $set: { name: name, description: description, websiteUrl: websiteUrl } });
+            return result.matchedCount === 1;
         });
     }
 };

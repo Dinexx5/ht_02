@@ -2,7 +2,8 @@ import {Request, Response, Router} from "express"
 import {body} from "express-validator";
 import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
 import {postsRepository, postType} from "../repositories/posts-repository";
-import {blogsRepository, blogType} from "../repositories/blogs-repository-inmemory";
+import {blogsRepository} from "../repositories/blogs-repository-db";
+import {blogType} from "../repositories/blogs-repository-inmemory";
 
 
 
@@ -25,7 +26,7 @@ postsRouter.get('/', async (req: Request, res: Response) => {
 })
 
 postsRouter.get('/:id', async (req: Request, res: Response) => {
-    let post: postType | undefined = await postsRepository.getPostById(req.params.id)
+    let post: postType | null = await postsRepository.getPostById(req.params.id)
     if (!post) {
         res.send(404)
     } else {
@@ -43,11 +44,11 @@ postsRouter.post('/',
     async (req: Request, res: Response) => {
 
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog: blogType | undefined = await blogsRepository.getBlogById(blogId)
+        const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
         if (!foundBlog) {
            return res.send(404)
         }
-        const newPost: postType | undefined = await postsRepository.createPost(title, shortDescription, content, blogId)
+        const newPost: postType | null = await postsRepository.createPost(title, shortDescription, content, blogId)
         res.status(201).send(newPost)
     })
 
@@ -72,7 +73,7 @@ postsRouter.put('/:id',
     async (req: Request, res: Response) => {
         const id = req.params.id
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog: blogType | undefined = await blogsRepository.getBlogById(blogId)
+        const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
         if (!foundBlog) {
             res.send(404)
         }

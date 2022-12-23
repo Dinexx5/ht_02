@@ -1,9 +1,18 @@
 import {MongoClient} from "mongodb";
 
+export type blogType = {
+    id: string,
+    name: string,
+    description: string,
+    websiteUrl: string
+}
+
 const mongoUri = "mongodb+srv://Dinexx5:3231810dimasD@cluster0.ptoddig.mongodb.net/?retryWrites=true&w=majority"
 
-export const client = new MongoClient(mongoUri)
+const client = new MongoClient(mongoUri)
 
+const db = client.db("youtube");
+export const blogsCollection = db.collection<blogType>("blogs")
 
 
 export async function runDb() {

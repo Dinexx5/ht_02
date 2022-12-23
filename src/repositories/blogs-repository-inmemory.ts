@@ -22,8 +22,13 @@ export type blogType = {
         return newBlog
     },
 
-     async getBlogById (id: string): Promise<blogType | undefined> {
-         return blogs.find(b => b.id === id)
+     async getBlogById (id: string): Promise<blogType | null> {
+         let blog = blogs.find(b => b.id === id)
+         if (blog) {
+             return blog
+         } else {
+             return null
+         }
     },
 
     async getAllBlogs (): Promise<blogType[]> {

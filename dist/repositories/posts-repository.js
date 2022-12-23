@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
-const blogs_repository_db_1 = require("./blogs-repository-db");
+const blogs_repository_inmemory_1 = require("./blogs-repository-inmemory");
 let posts = [];
 exports.postsRepository = {
     createPost(title, shortDescription, content, blogId) {
         return __awaiter(this, void 0, void 0, function* () {
-            let foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
+            let foundBlog = yield blogs_repository_inmemory_1.blogsRepository.getBlogById(blogId);
             if (foundBlog) {
                 const newPost = {
                     id: posts.length.toString(),
@@ -28,12 +28,20 @@ exports.postsRepository = {
                 posts.push(newPost);
                 return newPost;
             }
+            else {
+                return null;
+            }
         });
     },
     getPostById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let post = posts.find(p => p.id === id);
-            return post;
+            if (post) {
+                return post;
+            }
+            else {
+                return null;
+            }
         });
     },
     getAllPosts() {
@@ -54,7 +62,7 @@ exports.postsRepository = {
     },
     UpdatePostById(id, title, shortDescription, content, blogId) {
         return __awaiter(this, void 0, void 0, function* () {
-            let foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
+            let foundBlog = yield blogs_repository_inmemory_1.blogsRepository.getBlogById(blogId);
             let foundPost = posts.find(p => p.id === id);
             if (!foundPost || !foundBlog) {
                 return false;
