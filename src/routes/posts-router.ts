@@ -1,9 +1,9 @@
 import {Request, Response, Router} from "express"
 import {body} from "express-validator";
 import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
-import {postsRepository, postType} from "../repositories/posts-repository";
+import {postsRepository} from "../repositories/posts-repository-db";
 import {blogsRepository} from "../repositories/blogs-repository-db";
-import {blogType} from "../repositories/blogs-repository-inmemory";
+import {blogType, postType} from "../repositories/db";
 
 
 
@@ -73,10 +73,6 @@ postsRouter.put('/:id',
     async (req: Request, res: Response) => {
         const id = req.params.id
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
-        if (!foundBlog) {
-            res.send(404)
-        }
 
         let isUpdated: boolean = await postsRepository.UpdatePostById(id, title, shortDescription, content, blogId)
 

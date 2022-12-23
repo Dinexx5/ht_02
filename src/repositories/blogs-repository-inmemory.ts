@@ -1,4 +1,3 @@
-
 const blogs: blogType[] = []
 
 export type blogType = {
@@ -8,7 +7,7 @@ export type blogType = {
     websiteUrl: string
 }
 
- export const blogsRepository = {
+export const blogsRepository = {
 
     async createBlogs (name: string, description: string, websiteUrl: string): Promise<blogType> {
 
