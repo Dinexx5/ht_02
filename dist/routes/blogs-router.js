@@ -12,13 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRouter = void 0;
 const express_1 = require("express");
 const blogs_repository_db_1 = require("../repositories/blogs-repository-db");
-const express_validator_1 = require("express-validator");
 const input_validation_1 = require("../middlewares/input-validation");
 exports.blogsRouter = (0, express_1.Router)({});
-//blogs validation
-const nameValidation = (0, express_validator_1.body)('name').trim().isLength({ max: 15 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
-const descriptionValidation = (0, express_validator_1.body)('description').trim().isLength({ max: 500 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
-const websiteUrlValidation = (0, express_validator_1.body)('websiteUrl').trim().isURL().withMessage('Not a Url');
 exports.blogsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const blogs = yield blogs_repository_db_1.blogsRepository.getAllBlogs();
     res.status(200).send(blogs);
@@ -32,7 +27,7 @@ exports.blogsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
         res.send(blog);
     }
 }));
-exports.blogsRouter.post('/', input_validation_1.basicAuthorisation, nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.blogsRouter.post('/', input_validation_1.basicAuthorisation, input_validation_1.nameValidation, input_validation_1.descriptionValidation, input_validation_1.websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, websiteUrl } = req.body;
     const newBlog = yield blogs_repository_db_1.blogsRepository.createBlogs(name, description, websiteUrl);
     res.status(201).send(newBlog);
@@ -46,7 +41,7 @@ exports.blogsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, 
         res.send(404);
     }
 }));
-exports.blogsRouter.put('/:id', input_validation_1.basicAuthorisation, nameValidation, descriptionValidation, websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.blogsRouter.put('/:id', input_validation_1.basicAuthorisation, input_validation_1.nameValidation, input_validation_1.descriptionValidation, input_validation_1.websiteUrlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const { name, description, websiteUrl } = req.body;
     let isUpdated = yield blogs_repository_db_1.blogsRepository.UpdateBlogById(id, name, description, websiteUrl);

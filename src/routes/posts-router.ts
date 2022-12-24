@@ -1,22 +1,13 @@
 import {Request, Response, Router} from "express"
-import {body} from "express-validator";
-import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
+import {basicAuthorisation, blogIdlValidation, contentValidation, inputValidationMiddleware, shortDescriptionValidation, titleValidation} from "../middlewares/input-validation";
 import {postsRepository} from "../repositories/posts-repository-db";
 import {blogsRepository} from "../repositories/blogs-repository-db";
-import {blogType, postType} from "../repositories/db";
+import {blogType, postType} from "../repositories/types";
+
 
 
 
 export const postsRouter = Router({})
-
-
-//posts validation
-
-const titleValidation = body('title').trim().isLength({max: 30}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title')
-const shortDescriptionValidation = body('shortDescription').trim().isLength({max: 100}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string desc')
-const contentValidation = body('content').trim().isLength({max: 1000}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content')
-const blogIdlValidation = body('blogId').trim().not().isEmpty().withMessage('Not a string blogId').isLength({max: 30}).withMessage('Incorrect length of blogId')
-
 
 
 

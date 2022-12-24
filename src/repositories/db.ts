@@ -1,24 +1,9 @@
 import {MongoClient} from "mongodb";
 import * as dotenv from 'dotenv'
+import {blogType, postType} from "./types";
 dotenv.config()
 
-export type blogType = {
-    id: string,
-    name: string,
-    description: string,
-    websiteUrl: string,
-    createdAt: string
-}
 
-export type postType = {
-    id: string,
-    title: string,
-    shortDescription: string,
-    content: string,
-    blogId: string,
-    blogName: string,
-    createdAt: string
-}
 
 const mongoUri = process.env.MONGO_URL
 if (!mongoUri) {

@@ -1,15 +1,10 @@
 import {Request, Response, Router} from "express";
 import {blogsRepository} from "../repositories/blogs-repository-db";
-import {body} from "express-validator";
-import {basicAuthorisation, inputValidationMiddleware} from "../middlewares/input-validation";
-import {blogType} from "../repositories/db";
+import {basicAuthorisation, descriptionValidation, inputValidationMiddleware, nameValidation, websiteUrlValidation} from "../middlewares/input-validation";
+import {blogType} from "../repositories/types";
+
 
 export const blogsRouter = Router({})
-
-//blogs validation
-const nameValidation = body('name').trim().isLength({max: 15}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
-const descriptionValidation = body('description').trim().isLength({max: 500}).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string')
-const websiteUrlValidation = body('websiteUrl').trim().isURL().withMessage('Not a Url')
 
 
 blogsRouter.get('/', async (req: Request, res: Response) => {

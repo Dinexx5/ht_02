@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inputValidationMiddleware = exports.basicAuthorisation = void 0;
+exports.blogIdlValidation = exports.contentValidation = exports.shortDescriptionValidation = exports.titleValidation = exports.websiteUrlValidation = exports.descriptionValidation = exports.nameValidation = exports.inputValidationMiddleware = exports.basicAuthorisation = void 0;
 const express_validator_1 = require("express-validator");
 const basicAuthorisation = (req, res, next) => {
     const loginPass = req.headers.authorization;
@@ -30,3 +30,12 @@ const inputValidationMiddleware = (req, res, next) => {
     }
 };
 exports.inputValidationMiddleware = inputValidationMiddleware;
+//blogs validation
+exports.nameValidation = (0, express_validator_1.body)('name').trim().isLength({ max: 15 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
+exports.descriptionValidation = (0, express_validator_1.body)('description').trim().isLength({ max: 500 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string');
+exports.websiteUrlValidation = (0, express_validator_1.body)('websiteUrl').trim().isURL().withMessage('Not a Url');
+//posts validation
+exports.titleValidation = (0, express_validator_1.body)('title').trim().isLength({ max: 30 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title');
+exports.shortDescriptionValidation = (0, express_validator_1.body)('shortDescription').trim().isLength({ max: 100 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string desc');
+exports.contentValidation = (0, express_validator_1.body)('content').trim().isLength({ max: 1000 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content');
+exports.blogIdlValidation = (0, express_validator_1.body)('blogId').trim().not().isEmpty().withMessage('Not a string blogId').isLength({ max: 30 }).withMessage('Incorrect length of blogId');

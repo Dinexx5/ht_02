@@ -1,9 +1,9 @@
-import {blogsCollection, blogType} from "./db";
+import {blogsCollection} from "./db";
+import {blogType} from "./types";
 
 
 
  export const blogsRepository = {
-
 
 
     async getAllBlogs (): Promise<blogType[]> {
