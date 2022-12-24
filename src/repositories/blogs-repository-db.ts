@@ -15,10 +15,11 @@ import {blogsCollection, blogType} from "./db";
 
     async createBlogs (name: string, description: string, websiteUrl: string): Promise<blogType> {
         const newBlog: blogType  = {
-            id: "0",
+            id: new Date().toISOString(),
             name: name,
             description: description,
-            websiteUrl: websiteUrl
+            websiteUrl: websiteUrl,
+            createdAt: new Date().toISOString()
         }
         await blogsCollection.insertOne(newBlog)
         return newBlog

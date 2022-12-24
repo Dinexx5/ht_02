@@ -1,12 +1,9 @@
 import {Request, Response, Router} from "express";
-import {postsRepository} from "../repositories/posts-repository-db";
-import {blogsRepository} from "../repositories/blogs-repository-db";
+import {blogsCollection, postsCollection} from "../repositories/db";
 export const testingRouter = Router({})
 
 testingRouter.delete('/all-data', async (req: Request, res: Response) => {
-    let blogs = await blogsRepository.getAllBlogs()
-    blogs.splice(0,blogs.length)
-    let posts = await postsRepository.getAllPosts()
-    posts.splice(0,blogs.length)
+    await blogsCollection.deleteMany( { } )
+    await postsCollection.deleteMany( { } )
     res.send(204)
 })

@@ -20,10 +20,11 @@ exports.blogsRepository = {
     createBlogs(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
-                id: "0",
+                id: new Date().toISOString(),
                 name: name,
                 description: description,
-                websiteUrl: websiteUrl
+                websiteUrl: websiteUrl,
+                createdAt: new Date().toISOString()
             };
             yield db_1.blogsCollection.insertOne(newBlog);
             return newBlog;

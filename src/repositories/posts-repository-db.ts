@@ -7,12 +7,13 @@ export const postsRepository = {
     async createPost (title: string, shortDescription: string, content: string, blogId: string): Promise<postType> {
         let foundBlog = await blogsRepository.getBlogById(blogId)
         const newPost: postType  = {
-            id: "1",
+            id: new Date().toISOString(),
             title: title,
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
-            blogName: foundBlog!.name
+            blogName: foundBlog!.name,
+            createdAt: new Date().toISOString()
         }
         await postsCollection.insertOne(newPost)
         return newPost
