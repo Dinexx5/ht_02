@@ -24,9 +24,10 @@ const mongoUri = process.env.MONGO_URL
 if (!mongoUri) {
     throw new Error("No mongo URL")
 }
+console.log("url: ", mongoUri)
 const client = new MongoClient(mongoUri)
 
-const db = client.db("youtube-dev");
+const db = client.db();
 export const blogsCollection = db.collection<blogType>("blogs")
 export const postsCollection = db.collection<postType>("posts")
 
@@ -36,7 +37,7 @@ export async function runDb() {
         // Connect client tot the server
         await client.connect();
         // Establish and verify connection
-        await client.db("youtube-dev").command({ ping: 1 });
+        await client.db().command({ ping: 1 });
         console.log("Connected successfully to mongo server");
     } catch {
         console.log ("Can not connect to mongo db");

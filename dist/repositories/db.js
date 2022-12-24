@@ -40,8 +40,9 @@ const mongoUri = process.env.MONGO_URL;
 if (!mongoUri) {
     throw new Error("No mongo URL");
 }
+console.log("url: ", mongoUri);
 const client = new mongodb_1.MongoClient(mongoUri);
-const db = client.db("youtube-dev");
+const db = client.db();
 exports.blogsCollection = db.collection("blogs");
 exports.postsCollection = db.collection("posts");
 function runDb() {
@@ -50,7 +51,7 @@ function runDb() {
             // Connect client tot the server
             yield client.connect();
             // Establish and verify connection
-            yield client.db("youtube-dev").command({ ping: 1 });
+            yield client.db().command({ ping: 1 });
             console.log("Connected successfully to mongo server");
         }
         catch (_a) {
