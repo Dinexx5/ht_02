@@ -21,7 +21,7 @@ import {blogsCollection, blogType} from "./db";
             websiteUrl: websiteUrl,
             createdAt: new Date().toISOString()
         }
-        await blogsCollection.insertOne(newBlog)
+        await blogsCollection.insertOne({...newBlog})
         return newBlog
     },
 

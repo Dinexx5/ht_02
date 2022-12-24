@@ -25,7 +25,7 @@ exports.postsRepository = {
                 blogName: foundBlog.name,
                 createdAt: new Date().toISOString()
             };
-            yield db_1.postsCollection.insertOne(newPost);
+            yield db_1.postsCollection.insertOne(Object.assign({}, newPost));
             return newPost;
         });
     },
