@@ -22,7 +22,7 @@ export const postsRepository = {
 
 
     async getPostById (id: string): Promise<postType | null> {
-        let post : postType | null = await postsCollection.findOne({id: id})
+        let post : postType | null = await postsCollection.findOne({id: id}, { projection: {_id:0} })
         if (post) {
             return post
         } else {
@@ -33,7 +33,7 @@ export const postsRepository = {
 
 
     async getAllPosts (): Promise<postType[]> {
-        return await postsCollection.find().toArray()
+        return await postsCollection.find({}, { projection: {_id:0} }).toArray()
     },
 
 

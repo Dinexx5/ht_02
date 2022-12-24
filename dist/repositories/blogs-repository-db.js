@@ -14,7 +14,7 @@ const db_1 = require("./db");
 exports.blogsRepository = {
     getAllBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield db_1.blogsCollection.find().toArray();
+            return yield db_1.blogsCollection.find({}, { projection: { _id: 0 } }).toArray();
         });
     },
     createBlogs(name, description, websiteUrl) {
@@ -32,7 +32,7 @@ exports.blogsRepository = {
     },
     getBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let blog = yield db_1.blogsCollection.findOne({ id: id });
+            let blog = yield db_1.blogsCollection.findOne({ id: id }, { projection: { _id: 0 } });
             if (blog) {
                 return blog;
             }

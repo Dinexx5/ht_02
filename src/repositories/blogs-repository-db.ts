@@ -8,7 +8,7 @@ import {blogsCollection, blogType} from "./db";
 
     async getAllBlogs (): Promise<blogType[]> {
 
-        return await blogsCollection.find().toArray()
+        return await blogsCollection.find({}, { projection: {_id:0} }).toArray()
      },
 
 
@@ -28,7 +28,7 @@ import {blogsCollection, blogType} from "./db";
 
     async getBlogById (id: string): Promise<blogType | null> {
 
-        let blog: blogType | null = await blogsCollection.findOne({id: id})
+        let blog: blogType | null = await blogsCollection.findOne({id: id}, { projection: {_id:0} })
         if (blog) {
             return blog
         } else {

@@ -31,7 +31,7 @@ exports.postsRepository = {
     },
     getPostById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let post = yield db_1.postsCollection.findOne({ id: id });
+            let post = yield db_1.postsCollection.findOne({ id: id }, { projection: { _id: 0 } });
             if (post) {
                 return post;
             }
@@ -42,7 +42,7 @@ exports.postsRepository = {
     },
     getAllPosts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield db_1.postsCollection.find().toArray();
+            return yield db_1.postsCollection.find({}, { projection: { _id: 0 } }).toArray();
         });
     },
     deletePostById(id) {
