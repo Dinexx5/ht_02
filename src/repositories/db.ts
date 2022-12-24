@@ -1,4 +1,6 @@
 import {MongoClient} from "mongodb";
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 export type blogType = {
     id: string,
@@ -18,8 +20,10 @@ export type postType = {
     createdAt: string
 }
 
-const mongoUri = "mongodb+srv://Dinexx5:3231810dimasD@cluster0.ptoddig.mongodb.net/?retryWrites=true&w=majority"
-
+const mongoUri = process.env.MONGO_URL
+if (!mongoUri) {
+    throw new Error("No mongo URL")
+}
 const client = new MongoClient(mongoUri)
 
 const db = client.db("youtube");
