@@ -35,13 +35,13 @@ postsRouter.post('/',
     async (req: Request, res: Response) => {
 
         const {title, shortDescription, content, blogId} = req.body
-        const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
-        if (!foundBlog) {
-           return res.send(404)
-        } else {
+        // const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
+        // if (!foundBlog) {
+        //    return res.send(404)
+        // } else {
             const newPost: postType = await postsRepository.createPost(title, shortDescription, content, blogId)
             res.status(201).send(newPost)
-        }
+        // }
 
     })
 

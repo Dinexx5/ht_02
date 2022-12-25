@@ -1,4 +1,4 @@
-import {MongoClient} from "mongodb";
+import {MongoClient, ObjectId} from "mongodb";
 import * as dotenv from 'dotenv'
 import {blogDbType, postType} from "./types";
 dotenv.config()

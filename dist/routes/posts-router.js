@@ -13,7 +13,6 @@ exports.postsRouter = void 0;
 const express_1 = require("express");
 const input_validation_1 = require("../middlewares/input-validation");
 const posts_repository_db_1 = require("../repositories/posts-repository-db");
-const blogs_repository_db_1 = require("../repositories/blogs-repository-db");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const posts = yield posts_repository_db_1.postsRepository.getAllPosts();
@@ -30,14 +29,13 @@ exports.postsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.postsRouter.post('/', input_validation_1.basicAuthorisation, input_validation_1.titleValidation, input_validation_1.shortDescriptionValidation, input_validation_1.contentValidation, input_validation_1.blogIdlValidation, input_validation_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, shortDescription, content, blogId } = req.body;
-    const foundBlog = yield blogs_repository_db_1.blogsRepository.getBlogById(blogId);
-    if (!foundBlog) {
-        return res.send(404);
-    }
-    else {
-        const newPost = yield posts_repository_db_1.postsRepository.createPost(title, shortDescription, content, blogId);
-        res.status(201).send(newPost);
-    }
+    // const foundBlog: blogType | null = await blogsRepository.getBlogById(blogId)
+    // if (!foundBlog) {
+    //    return res.send(404)
+    // } else {
+    const newPost = yield posts_repository_db_1.postsRepository.createPost(title, shortDescription, content, blogId);
+    res.status(201).send(newPost);
+    // }
 }));
 exports.postsRouter.delete('/:id', input_validation_1.basicAuthorisation, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const isDeleted = yield posts_repository_db_1.postsRepository.deletePostById(req.params.id);

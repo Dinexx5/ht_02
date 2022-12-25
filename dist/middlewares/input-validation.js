@@ -1,7 +1,17 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogIdlValidation = exports.contentValidation = exports.shortDescriptionValidation = exports.titleValidation = exports.websiteUrlValidation = exports.descriptionValidation = exports.nameValidation = exports.inputValidationMiddleware = exports.basicAuthorisation = void 0;
 const express_validator_1 = require("express-validator");
+const blogs_repository_db_1 = require("../repositories/blogs-repository-db");
 const basicAuthorisation = (req, res, next) => {
     const loginPass = req.headers.authorization;
     if (loginPass === "Basic YWRtaW46cXdlcnR5") {
@@ -38,4 +48,15 @@ exports.websiteUrlValidation = (0, express_validator_1.body)('websiteUrl').trim(
 exports.titleValidation = (0, express_validator_1.body)('title').trim().isLength({ max: 30 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string title');
 exports.shortDescriptionValidation = (0, express_validator_1.body)('shortDescription').trim().isLength({ max: 100 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string desc');
 exports.contentValidation = (0, express_validator_1.body)('content').trim().isLength({ max: 1000 }).withMessage('Incorrect length').not().isEmpty().withMessage('Not a string content');
-exports.blogIdlValidation = (0, express_validator_1.body)('blogId').trim().not().isEmpty().withMessage('Not a string blogId').isLength({ max: 30 }).withMessage('Incorrect length of blogId');
+exports.blogIdlValidation = (0, express_validator_1.body)('blogId').trim().not().isEmpty().withMessage('Not a string blogId').isLength({ max: 30 })
+    .withMessage('Incorrect length of blogId')
+    .custom((value) => __awaiter(void 0, void 0, void 0, function* () {
+    const blog = yield blogs_repository_db_1.blogsRepository.getBlogById(value);
+    if (blog) {
+        if (value !== blog.id) {
+            throw new Error('blog id does not exists');
+        }
+        return true;
+    }
+    throw new Error('blog does not exist');
+}));
