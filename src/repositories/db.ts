@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
 import * as dotenv from 'dotenv'
-import {blogType, postType} from "./types";
+import {blogDbType, postType} from "./types";
 dotenv.config()
 
 
@@ -13,7 +13,7 @@ console.log("url: ", mongoUri)
 const client = new MongoClient(mongoUri)
 
 const db = client.db();
-export const blogsCollection = db.collection<blogType>("blogs")
+export const blogsCollection = db.collection<blogDbType>("blogs")
 export const postsCollection = db.collection<postType>("posts")
 
 
