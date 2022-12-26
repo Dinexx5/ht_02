@@ -6,7 +6,7 @@ import {ObjectId} from "mongodb";
 export const blogsRepository = {
 
 
-    async getAllBlogs (): Promise<blogType[]> {
+    async getAllBlogs(): Promise<blogType[]> {
 
         let blogsDb = await blogsCollection.find({}).toArray()
         return blogsDb.map((blog: blogDbType) => ({
@@ -16,12 +16,11 @@ export const blogsRepository = {
             createdAt: blog.createdAt,
             id: blog._id.toString()
         }))
-     },
+    },
 
 
-
-    async createBlogs (name: string, description: string, websiteUrl: string): Promise<blogType> {
-        const newDbBlog: blogDbType  = {
+    async createBlogs(name: string, description: string, websiteUrl: string): Promise<blogType> {
+        const newDbBlog: blogDbType = {
             _id: new ObjectId(),
             name: name,
             description: description,
@@ -39,28 +38,29 @@ export const blogsRepository = {
     },
 
 
-    async getBlogById (id: string): Promise<blogType | null> {
-        if (ObjectId.isValid(id)) {
-            let _id = new ObjectId(id)
-            let blog: blogDbType | null = await blogsCollection.findOne({_id: _id})
-            if (blog) {
-                return {
-                    name: blog.name,
-                    description: blog.description,
-                    websiteUrl: blog.websiteUrl,
-                    createdAt: blog.createdAt,
-                    id: blog._id.toString()
-                }
-            } else {
-                return null
-            }
-        } return null
+    async getBlogById(id: string): Promise<blogType | null> {
+        if (!ObjectId.isValid(id)) {
+            return null
+        }
 
+        let _id = new ObjectId(id)
+        let blog: blogDbType | null = await blogsCollection.findOne({_id: _id})
+
+        if (!blog) {
+            return null
+        }
+
+        return {
+            name: blog.name,
+            description: blog.description,
+            websiteUrl: blog.websiteUrl,
+            createdAt: blog.createdAt,
+            id: blog._id.toString()
+        }
     },
 
 
-
-    async deleteBlogById (id: string): Promise<boolean> {
+    async deleteBlogById(id: string): Promise<boolean> {
         if (ObjectId.isValid(id)) {
             let _id = new ObjectId(id)
             let result = await blogsCollection.deleteOne({_id: _id})
@@ -70,9 +70,7 @@ export const blogsRepository = {
     },
 
 
-
-
-    async UpdateBlogById (id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
+    async UpdateBlogById(id: string, name: string, description: string, websiteUrl: string): Promise<boolean> {
         if (ObjectId.isValid(id)) {
             let _id = new ObjectId(id)
             let result = await blogsCollection.updateOne({_id: _id}, {
@@ -88,4 +86,4 @@ export const blogsRepository = {
 
 
     }
- }
+}
